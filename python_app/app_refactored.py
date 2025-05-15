@@ -85,9 +85,21 @@ if __name__ == '__main__':
 
     data = fileLoader(filepath=filepath_input)
 
+# added by NC - count data befoe dorpping duplicates
+
+    initial_rows = len(data)
+
     # Drop duplicates & NAs
     data = duplicateCleaner(data)
     data = naCleaner(data)
+
+#count_data after dropping duplicates
+    final_rows = len(data)
+
+# calculate number dropped rows
+
+    dropped_row_count = initial_rows - final_rows
+    print(f'Number of rows dropped: {dropped_row_count}')
 
     # Converting date columns into datetime
     for col in date_columns:
@@ -126,4 +138,4 @@ if __name__ == '__main__':
         server = 'localhost', 
         database = 'DE5_Module5'
     )
-    print('**************** End ****************')
+    print('**************** The End ****************')
