@@ -3,6 +3,8 @@
 The proposed solution for MVP:
 ![diagram](./references/architectureNirosh.pngpng)
 
+![diagram1](./references/Kanban.drawio.png)
+
 
 # Code Structure
 
