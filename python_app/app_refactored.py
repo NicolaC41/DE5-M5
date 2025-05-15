@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
 # added by NC - enriching the dataset
     #print(data.iloc[16]) - Cleaning this error row. 
-    data.drop(16, axis =0, inplace=True)
+    #data.drop(16, axis =0, inplace=True)
 
 
 # Converting date columns into datetime
@@ -123,6 +123,15 @@ if __name__ == '__main__':
     negative_count = negative_rows.shape[0]
 
     print(f'Total negative duration: {negative_count}')
+
+
+
+
+
+
+
+
+
 
 
 #data.to_csv('cleaned_file.csv')
