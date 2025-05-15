@@ -49,6 +49,9 @@ def enrich_dateDuration(colA, colB, df):
     Note:
     colB>colA
     """
+    df[colA] = pd.to_datetime(df[colA], errors='coerce')
+    df[colB] = pd.to_datetime(df[colB], errors='coerce')
+
     df['date_delta'] = (df[colB]-df[colA]).dt.days
 
     #Conditional Filtering to be able to gauge eroneous loans.
@@ -85,7 +88,7 @@ if __name__ == '__main__':
 
     data = fileLoader(filepath=filepath_input)
 
-# added by NC - count data befoe dorpping duplicates
+# added by NC - count data before dropping duplicates
 
     initial_rows = len(data)
 
@@ -101,22 +104,36 @@ if __name__ == '__main__':
     dropped_row_count = initial_rows - final_rows
     print(f'Number of rows dropped: {dropped_row_count}')
 
-    # Converting date columns into datetime
+# added by NC - enriching the dataset
+    #print(data.iloc[16]) - Cleaning this error row. 
+    data.drop(16, axis =0, inplace=True)
+
+
+# Converting date columns into datetime
     for col in date_columns:
         data = dateCleaner(col, data)
     
-    # Enriching the dataset
+# Enriching the dataset
     data = enrich_dateDuration(df=data, colA='Book Returned', colB='Book checkout')
 
-    #data.to_csv('cleaned_file.csv')
+# identify negative duration
+    negative_rows = data[data['date_delta'] < 0]
+
+# Count negative entries
+    negative_count = negative_rows.shape[0]
+
+    print(f'Total negative duration: {negative_count}')
+
+
+#data.to_csv('cleaned_file.csv')
     print(data)
 
-    #Cleaning the customer file
+#Cleaning the customer file
     filepath_input_2 = './data/03_Library SystemCustomers.csv'
 
     data2 = fileLoader(filepath=filepath_input_2)
 
-    # Drop duplicates & NAs
+# Drop duplicates & NAs
     data2 = duplicateCleaner(data2)
     data2 = naCleaner(data2)
 
